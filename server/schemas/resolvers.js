@@ -42,12 +42,12 @@ const resolvers = {
             return { token, user };
         },
         // allow logged-in user to save a book
-        saveBook: async (parent, args, context) => {
+        saveBook: async (parent, { book }, context) => {
             if (context.user) {
                 const updatedUser = await User.findOneAndUpdate(
                     { _id: context.user._id },
                     // use addToSet instead of push to avoid duplicates
-                    { $addToSet: { savedBooks: args } },
+                    { $addToSet: { savedBooks: book } },
                     { new: true, runValidators: true }
                 );
 
